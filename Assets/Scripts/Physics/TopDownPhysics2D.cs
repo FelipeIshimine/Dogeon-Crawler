@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using Contact = ContactRaycaster2D.Contact;
 
-[RequireComponent(typeof(ContactRaycaster2D), typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class TopDownPhysics2D : MonoBehaviour
 {
     public Action<Vector2> OnForceAdded;
@@ -31,7 +31,7 @@ public class TopDownPhysics2D : MonoBehaviour
     {
         displacement = velocity * Time.fixedDeltaTime;
 
-        Contact contacts = contactRaycaster2D.ProcessWithVelocity(ref displacement);
+        if(contactRaycaster2D) contactRaycaster2D.ProcessWithVelocity(ref displacement);
 
         velocity = displacement / Time.fixedDeltaTime;
 
@@ -52,5 +52,11 @@ public class TopDownPhysics2D : MonoBehaviour
     public void SetVelocity(Vector2 nVelocty)
     {
         velocity = nVelocty;
+    }
+
+    public void ResetPhysics()
+    {
+        rigidbody2D.velocity = velocity = Vector2.zero;
+        rigidbody2D.angularVelocity = 0;
     }
 }

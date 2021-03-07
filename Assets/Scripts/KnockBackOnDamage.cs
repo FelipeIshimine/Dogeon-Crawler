@@ -30,11 +30,18 @@ public class KnockBackOnDamage : MonoBehaviour
         if(old > current)
         {
             Vector2 direction = Vector2.zero;
-            
+
             if (source is Collision2D collision2D)
-                direction = -collision2D.contacts[0].normal;
+            {
+                //direction = -collision2D.contacts[0].normal;
+                direction = -collision2D.relativeVelocity.normalized;
+            }
             else if (source is MonoBehaviour monoBehaviour)
-              direction =  monoBehaviour.transform.position.GetDirection(transform.position);
+            {
+                direction =  monoBehaviour.transform.position.GetDirection(transform.position);
+            }
+
+          
 
             topDownPhysics.AddForce(direction * knockBackForce);
         }
